@@ -2,7 +2,75 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@model UserModel
+
+<h2>Stwórz nowego użytkownika</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.Label("Imię")
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+        @Html.Label("Nazwisko")
+        @Html.TextBoxFor(model => model.Surname, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email)
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+        @Html.Label("Hasło")
+        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+        @Html.Label("Potwierdź hasło")
+        @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+        @Html.Label("Numer telefonu")
+        @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+        @Html.Label("Wiek")
+        @Html.TextBoxFor(model => model.Age, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Miasto")
+        @Html.DropDownListFor(model => model.City, new SelectList(Enum.GetValues(typeof(City))), new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Stwórz</button>
+    <button type="button" class="btn btn-secondary" onclick="clearForm()">Wyczyść</button>
+}
+
+<script>
+    function clearForm() {
+        document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], select').forEach(input => input.value = '');
+    }
+</script>
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
